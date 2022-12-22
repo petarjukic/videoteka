@@ -1,0 +1,52 @@
+Arguments: 
+  /Users/oss/.nvm/versions/node/v16.16.0/bin/node /Users/oss/.yarn/bin/yarn.js dev
+
+PATH: 
+  /Users/oss/.yarn/bin:/Users/oss/.config/yarn/global/node_modules/.bin:/usr/local/opt/openssl@3/bin:/usr/local/opt/openssl@1.1/bin:/Users/oss/.nvm/versions/node/v16.16.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Users/oss/.yarn/bin:/Users/oss/.config/yarn/global/node_modules/.bin:/usr/local/opt/openssl@3/bin:/usr/local/opt/openssl@1.1/bin:/Users/oss/.nvm/versions/node/v16.16.0/bin:/Users/oss/.composer/vendor/bin:/Users/oss/.composer/vendor/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/oss/Dev/videoteka/backend/package.json: Unexpected token } in JSON at position 136
+      at JSON.parse (<anonymous>)
+      at /Users/oss/.yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/Users/oss/.yarn/lib/cli.js:310:30)
+      at /Users/oss/.yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev": "nodemon index.js",
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^5.1.0",
+      "body-parser": "^1.20.1",
+      "cors": "^2.8.5",
+      "express": "^4.18.2",
+      "jsonwebtoken": "^9.0.0",
+      "mysql2": "^2.3.3",
+      "nodemon": "^2.0.20",
+      "sequelize": "^6.28.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
