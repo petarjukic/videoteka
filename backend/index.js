@@ -36,3 +36,34 @@ const init = async () => {
 };
 init();
 
+
+app.post("/login", async (req, res) => {
+	const user = await User.findOne({
+		where: { email: req.body.email },
+	});
+	if (user === null) {
+		return res
+			.status(404)
+			.json({ message: "User not found! Please register first." });
+	}
+	if (bcrypt.compareSync(req.body.password, user.password)) {
+		const token = signJwt(user.id, user.role);
+		const newUser = { ...user.dataValues, token };
+		return res.json(newUser);
+	} else {
+		return res.status(400).json({ message: "Invalid credentials!" });
+	}
+});
+
+app.post("/register", async (req, res) => {
+	const [user, created] = await User.findOrCreate({
+		where: { email: req.body.email },
+		defaults: {
+			role: "buyer",
+			...req.body,
+		},
+	});
+	if (created) {
+		return res.json(user);
+	}
+});
