@@ -8,7 +8,9 @@ const {Genre, Director, User, Role, Movie, Order, OrderDetail} = require("./mode
 
 const app = express();
 const port = 4000;
+const api = express.Router();
 
+app.use("/api", api);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,7 +39,7 @@ const init = async () => {
 init();
 
 
-app.post("/login", async (req, res) => {
+api.post("/login", async (req, res) => {
 	const user = await User.findOne({
 		where: { email: req.body.email },
 	});
@@ -47,7 +49,7 @@ app.post("/login", async (req, res) => {
 			.json({ message: "User not found! Please register first." });
 	}
 	if (bcrypt.compareSync(req.body.password, user.password)) {
-		const token = signJwt(user.id, user.role);
+		const token = signJwt(user.id);
 		const newUser = { ...user.dataValues, token };
 		return res.json(newUser);
 	} else {
@@ -55,11 +57,10 @@ app.post("/login", async (req, res) => {
 	}
 });
 
-app.post("/register", async (req, res) => {
+api.post("/register", async (req, res) => {
 	const [user, created] = await User.findOrCreate({
 		where: { email: req.body.email },
 		defaults: {
-			role: "buyer",
 			...req.body,
 		},
 	});
@@ -67,3 +68,114 @@ app.post("/register", async (req, res) => {
 		return res.json(user);
 	}
 });
+
+api.post("/movies", async (req, res) => {
+	const [movie, createdMovie] = await Movie.findOrCreate({
+		where: { id: req.body.id },
+		defaults: {
+			...req.body,
+		},
+	});
+
+	const [director, createdDirector] = await Director.findOrCreate({
+		where: { name: req.body.director.name },
+		defaults: {
+			...req.body.director,
+		},
+	});
+
+	if (createdMovie && createdDirector) {
+		movie.setDirector(director);
+		movie.setGenres(req.body.genres);
+		return res.json(movie);
+	}
+});
+
+api.get("/movies", async (req, res) => {
+	const movies = await Movie.findAll();
+	return res.json(movies);
+});
+
+api.put("movies/:id", async (req, res) => {
+	const movie = await Movie.findByPk(req.params.id);
+
+	if (movie) {
+		await movie.update(req.body);
+		return res.json(movie);
+	}else{
+		return res.status(404).json({ message: "Movie not found!" });
+	}
+});
+
+api.get("movies/:id", async (req, res) => {
+	const movie = await Movie.findByPk(req.params.id);
+
+	if (movie) {
+		return res.json(movie);
+	}else{
+		return res.status(404).json({ message: "Movie not found!" });
+	}
+});
+
+api.delete("movies/:id", async (req, res) => {
+	const movie = await Movie.findByPk(req.params.id);
+
+	if (movie) {
+		await movie.destroy();
+		return res.json(movie);
+	}else{
+		return res.status(404).json({ message: "Movie not found!" });
+	}
+});
+
+api.post("/genres", async (req, res) => {
+	const [genre, created] = await Genre.findOrCreate({
+		where: { id: req.body.id },
+		defaults: {
+			...req.body,
+		},
+	});
+	if (created) {
+		return res.json(genre);
+	}
+
+	return res.status(400).json({ message: "Genre already exists!" });
+});
+
+api.get("/genres", async (req, res) => {
+	const genres = await Genre.findAll();
+	return res.json(genres);
+});
+
+api.get("/genres/:id", async (req, res) => {
+	const genre = await Genre.findByPk(req.params.id);
+
+	if (genre) {
+		return res.json(genre);
+	}else{
+		return res.status(404).json({ message: "Genre not found!" });
+	}
+});
+
+api.put("/genres/:id", async (req, res) => {
+	const genre = await Genre.findByPk(req.params.id);
+
+	if (genre) {
+		await genre.update(req.body);
+		return res.json(genre);
+	}else{
+		return res.status(404).json({ message: "Genre not found!" });
+	}
+});
+
+api.delete("/genres/:id", async (req, res) => {
+	const genre = await Genre.findByPk(req.params.id);
+
+	if (genre) {
+		await genre.destroy();
+		return res.json(genre);
+	}else{
+		return res.status(404).json({ message: "Genre not found!" });
+	}
+});
+

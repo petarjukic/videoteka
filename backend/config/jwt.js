@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-function signJwt(user_id, role) {
+function signJwt(user_id) {
 	const token = jwt.sign({ sub: user_id }, "avp");
 	if (!token) return false;
 	return token;
