@@ -38,7 +38,7 @@ const Register = () => {
             return;
         }
 
-        fetch("http://localhost:", { //TODO FALI PATH ZA BACKEND
+        fetch("http://localhost:4000/register", {
             method: "POST",
             body: JSON.stringify({
                 firstName: firstName,

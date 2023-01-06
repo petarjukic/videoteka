@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Login from './Login';
 import Register from './Register';
 import { UserContext } from './UserContext';
+import Users from './users/Users';
+import HomePage from './home/HomePage';
 
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
   function handleLogin(e) {
     e.preventDefault();
 
-    fetch("http://localhost:", { //TODO FALI PATH ZA BACKEND
+    fetch("http://localhost:4000/login", {
         method: "POST",
         body: JSON.stringify({
             email: email,
@@ -47,8 +49,10 @@ function App() {
       <UserContext.Provider value={{user, setUser}}>
         <Router>
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
         </Router>
       </UserContext.Provider>

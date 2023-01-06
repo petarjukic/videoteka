@@ -20,7 +20,7 @@ const Login = () => {
     function handleLogin(e) {
         e.preventDefault();
     
-        fetch("http://localhost:", { //TODO FALI PATH ZA BACKEND
+        fetch("http://localhost:4000/login", {
             method: "POST",
             body: JSON.stringify({
                 email: email,
