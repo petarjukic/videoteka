@@ -12,7 +12,7 @@ const AddMovies = () => {
   });
   const [genres, setGenres] = useState([]);
   const [dropdown, setDropdown] = useState(
-    "162e4ddf-158b-4bdc-9260-edae8d39e9a5"
+    "055a730c-8c5a-4b03-a39e-67432dd5fcc4"
   );
 
   const addMovie = async (e) => {
