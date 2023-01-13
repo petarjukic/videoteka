@@ -11,7 +11,7 @@ const init = async () => {
     await connection.authenticate();
     await User.sync({ alter: true });
     await Role.sync({ alter: true });
-    await Movie.sync({ alter: true });
+    await Movie.sync({ alter: true })
     await Genre.sync({ alter: true });
     await Director.sync({ alter: true });
     console.log("Connection has been established successfully.");
@@ -53,7 +53,10 @@ api.post("/register", async (req, res) => {
     ...req.body,
   });
 
-  user.setRole("052418e4-647d-49fd-ada3-ea4989682b28");
+  const userRole = await Role.findOne({
+    where: {name: "user"}
+  })
+  user.setRole(userRole);
 
   return res.json(user);
 });
