@@ -6,19 +6,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { Genre, Director, User, Role, Movie } = require("./models/models");
 
-const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
-const port = 4000;
-const api = express.Router();
-
-app.use("/api", api);
-
-app.listen(port, () => {
-  console.log("Running on port " + port);
-});
-
 const init = async () => {
   try {
     await connection.authenticate();
@@ -33,6 +20,14 @@ const init = async () => {
   }
 };
 init();
+const app = express();
+const api = express.Router();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const port = 4000;
+
+app.use("/api", api);
 
 api.post("/login", async (req, res) => {
   const user = await User.findOne({
@@ -78,10 +73,15 @@ api.post("/roles", async (req, res) => {
     return res.json(role);
   }
 });
+api.route("movies/:id").get(async (req, res) => {
+  const movie = await Movie.findByPk(req.params.id);
+
+  console.log(movie);
+});
 
 api.post("/movies", async (req, res) => {
   const [movie, createdMovie] = await Movie.findOrCreate({
-    where: { id: req.body.id },
+    where: { name: req.body.name },
     defaults: {
       ...req.body,
     },
@@ -93,16 +93,17 @@ api.post("/movies", async (req, res) => {
       ...req.body.director,
     },
   });
+  const genre = await Genre.findByPk(req.body.genre);
+  movie.setDirector(director);
+  movie.setGenre(genre);
 
-  if (createdMovie && createdDirector) {
-    movie.setDirector(director);
-    movie.setGenres(req.body.genres);
-    return res.json(movie);
-  }
+  return res.json(movie);
 });
 
 api.get("/movies", async (req, res) => {
-  const movies = await Movie.findAll();
+  const movies = await Movie.findAll({
+    include: [Director, Genre],
+  });
   return res.json(movies);
 });
 
@@ -117,19 +118,9 @@ api.put("movies/:id", async (req, res) => {
   }
 });
 
-api.get("movies/:id", async (req, res) => {
+api.delete("/movies/:id", async (req, res) => {
   const movie = await Movie.findByPk(req.params.id);
-
-  if (movie) {
-    return res.json(movie);
-  } else {
-    return res.status(404).json({ message: "Movie not found!" });
-  }
-});
-
-api.delete("movies/:id", async (req, res) => {
-  const movie = await Movie.findByPk(req.params.id);
-
+  console.log(movie);
   if (movie) {
     await movie.destroy();
     return res.json(movie);
@@ -140,7 +131,7 @@ api.delete("movies/:id", async (req, res) => {
 
 api.post("/genres", async (req, res) => {
   const [genre, created] = await Genre.findOrCreate({
-    where: { id: req.body.id },
+    where: { name: req.body.name },
     defaults: {
       ...req.body,
     },
@@ -197,4 +188,8 @@ api.get("/users", async (req, res) => {
 
   console.log(role);
   return res.json(users);
+});
+
+app.listen(port, () => {
+  console.log("Running on port " + port);
 });

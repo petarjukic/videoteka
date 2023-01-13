@@ -52,6 +52,15 @@ const Movie = connection.define("Movie", {
     allowNull: false,
     primaryKey: true,
   },
+  video: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -101,7 +110,7 @@ Role.belongsTo(User);
 Movie.hasOne(Director);
 Movie.hasOne(Genre);
 Director.belongsTo(Movie);
-Genre.belongsTo(Movie);
+Genre.hasMany(Movie);
 
 User.beforeCreate((user) => {
   const hashedPassword = bcrypt.hashSync(user.password, 5);

@@ -24,7 +24,7 @@ const Login = () => {
         console.log(data);
         if (data.token) {
           localStorage.setItem("token", data.token);
-          localStorage.setItem("name", data.name);
+          localStorage.setItem("name", data.firstName);
           localStorage.setItem("email", data.email);
           localStorage.setItem("role", data.Role.name);
           localStorage.setItem("isSubscribed", data.isSubscribed);
