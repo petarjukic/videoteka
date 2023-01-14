@@ -105,8 +105,8 @@ const Genre = connection.define("Genre", {
   },
 });
 
-User.hasOne(Role);
-Role.belongsTo(User);
+User.belongsTo(Role);
+Role.hasOne(User);
 Movie.hasOne(Director);
 Movie.belongsTo(Genre);
 Director.belongsTo(Movie);

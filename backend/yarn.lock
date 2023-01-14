@@ -754,14 +754,14 @@
   "version" "0.6.3"
 
 "node-addon-api@^5.0.0":
-  "integrity" "sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA=="
-  "resolved" "https://registry.npmjs.org/node-addon-api/-/node-addon-api-5.0.0.tgz"
-  "version" "5.0.0"
+  "integrity" "sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA=="
+  "resolved" "https://registry.npmjs.org/node-addon-api/-/node-addon-api-5.1.0.tgz"
+  "version" "5.1.0"
 
 "node-fetch@^2.6.7":
-  "integrity" "sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ=="
-  "resolved" "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"
-  "version" "2.6.7"
+  "integrity" "sha512-RZ6dBYuj8dRSfxpUSu+NsdF1dpPpluJxwOp+6IoDp/sH2QNDSvurYsAa+F1WxY2RjA1iP93xhcsUoYbF2XBqVg=="
+  "resolved" "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.8.tgz"
+  "version" "2.6.8"
   dependencies:
     "whatwg-url" "^5.0.0"
 

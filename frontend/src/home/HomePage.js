@@ -15,9 +15,10 @@ const HomePage = () => {
 
   return (
     <div id="shell">
-      <div id="main">
-        <div id="content">
+        <div id="container">
+          <div className="row w-100">
           {movies.map((movie) => (
+<div className="col-2">
             <div className="box">
               <div className="head"></div>
               <div className="movie">
@@ -26,17 +27,17 @@ const HomePage = () => {
                   <span className="play">
                     <span className="name">{movie.name}</span>
                   </span>{" "}
-                  <a href="#">
+                  <Link to={`/movie/${movie.id}`}>
                     <img alt="" src={movie.image} />
-                  </a>{" "}
+                  </Link>
                 </div>
               </div>
-              <div className="cl">121212;</div>
-            </div>
+              </div>
+</div>
           ))}
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

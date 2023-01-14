@@ -11,7 +11,6 @@ const init = async () => {
     await connection.authenticate();
     await User.sync({ alter: true });
     await Role.sync({ alter: true });
-    await Movie.sync({ alter: true })
     await Genre.sync({ alter: true });
     await Director.sync({ alter: true });
     console.log("Connection has been established successfully.");
@@ -56,6 +55,7 @@ api.post("/register", async (req, res) => {
   const userRole = await Role.findOne({
     where: {name: "user"}
   })
+
   user.setRole(userRole);
 
   return res.json(user);
@@ -76,10 +76,10 @@ api.post("/roles", async (req, res) => {
     return res.json(role);
   }
 });
-api.route("movies/:id").get(async (req, res) => {
+api.get("/movies/:id", async (req, res) => {
   const movie = await Movie.findByPk(req.params.id);
 
-  console.log(movie);
+return res.json(movie);
 });
 
 api.post("/movies", async (req, res) => {
@@ -110,7 +110,7 @@ api.get("/movies", async (req, res) => {
   return res.json(movies);
 });
 
-api.put("movies/:id", async (req, res) => {
+api.put("/movies/:id", async (req, res) => {
   const movie = await Movie.findByPk(req.params.id);
 
   if (movie) {

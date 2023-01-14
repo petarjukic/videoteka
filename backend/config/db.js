@@ -1,4 +1,4 @@
 const { Sequelize } = require("sequelize");
 
-const db = "mysql://root:00000000@localhost/avp";
+const db = "mysql://stipo:Liberato0192!@mysql.liberato.internal/avp";
 module.exports.connection = new Sequelize(db);
