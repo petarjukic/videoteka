@@ -28,7 +28,7 @@ const Login = () => {
           localStorage.setItem("email", data.email);
           localStorage.setItem("role", data.Role.name);
           localStorage.setItem("isSubscribed", data.isSubscribed);
-          navigate("/");
+window.location.href = "/";
         } else {
           console.log("Authentication error");
         }

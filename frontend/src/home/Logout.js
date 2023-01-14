@@ -4,6 +4,7 @@ const Logout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.clear();
+    window.location.href = "/";
   }, []);
 
   return (
