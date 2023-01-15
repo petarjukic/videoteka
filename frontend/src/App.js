@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
 import Users from "./users/Users";
@@ -14,12 +14,15 @@ import AdminGenres from "./admin/AdminGenrea";
 import SingleMovie from "./home/SingleMovie";
 
 function App() {
+    const [searchTerm, setSearchTerm] = useState("")
+
+  
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage searchTerm={searchTerm} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />

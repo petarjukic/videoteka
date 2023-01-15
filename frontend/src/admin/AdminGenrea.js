@@ -27,6 +27,20 @@ const AdminGenres = () => {
     fetchGenres();
   }, []);
 
+  const deleteGenre = async (e, genre) => {
+    e.preventDefault();
+    const response = await fetch(`http://localhost:4000/api/genres/${genre.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (data) {
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       <div class="container">
@@ -42,7 +56,7 @@ const AdminGenres = () => {
               <tbody>
                 {genres.map((genre) => (
                   <tr key={genre.id}>
-                    <td>{genre.name}</td>
+                    <td>{genre.name}<button className="btn btn-danger btn-sm" onClick={(e) => deleteGenre(e, genre)}>Delete</button></td>
                   </tr>
                 ))}
               </tbody>

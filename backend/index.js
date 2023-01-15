@@ -102,6 +102,12 @@ api.post("/movies", async (req, res) => {
 
   return res.json(movie);
 });
+api.put("/users/:email", async (req, res) => {
+  const user = await User.update({ isSubscribed: true }, { where: { email: req.params.email } });
+  
+  return res.json(user);
+});
+
 
 api.get("/movies", async (req, res) => {
   const movies = await Movie.findAll({

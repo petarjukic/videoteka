@@ -11,7 +11,21 @@ const Users = () => {
         setUsers(allUsers);
       });
   }, []);
-  console.log(users[0]);
+
+  const subscribe = async (e, user) => {
+    e.preventDefault();
+    const response = await fetch(`http://localhost:4000/api/users/${user}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (data) {
+      window.location.reload();
+    }
+  };
+
   return (
     <div>
       <table className="table">
@@ -31,7 +45,7 @@ const Users = () => {
                 <td className="name">{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.isSubscribed === true ? "True" : "False"}</td>
+                <td>{user.isSubscribed === true ? "True" : "False"}{user.isSubscribed === false && (<button onClick={e => subscribe(e, user.email) } className="btn btn-danger btn-sm">Subscribe</button>)}</td>
                 <td>{user.Role.name}</td>
                 <td></td>
               </tr>

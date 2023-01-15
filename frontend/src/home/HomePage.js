@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = ({ searchTerm }) => {
   const [movies, setMovies] = useState([]);
-
+const [newMovies, setNewMovies] = useState([])
   useEffect(() => {
     const fetchMovies = async () => {
       const response = await fetch("http://localhost:4000/api/movies");
@@ -13,11 +13,23 @@ const HomePage = () => {
     fetchMovies();
   }, []);
 
+  useEffect(() => {
+    if (searchTerm === "") {
+      setNewMovies(movies);
+      return;
+    }
+    const newMovies = movies.filter((movie) => {
+      return movie.name.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+    );
+    setNewMovies(newMovies);
+  }, [movies, searchTerm]);
+
   return (
     <div id="shell">
         <div id="container">
           <div className="row w-100">
-          {movies.map((movie) => (
+          {newMovies.map((movie) => (
 <div className="col-2">
             <div className="box">
               <div className="head"></div>

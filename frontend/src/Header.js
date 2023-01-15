@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const Header = () => {
+
+
+const Header = ({ setSearchTerm, searchTerm}) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -13,10 +15,27 @@ const Header = () => {
       name: name,
       email: email,
       role: role,
-      isSubscribed: isSubscribed,
+      isSubscribed: isSubscribed === "true" ? true : false,
     });
   }, []);
 
+  const subscribe = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:4000/api/users/" + user.email, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("isSubscribed", true);
+        setUser({ ...user, isSubscribed: true });
+      }
+    );
+  };
   return (
     <div
       style={{
@@ -25,11 +44,16 @@ const Header = () => {
       }}
       id="header"
     >
-      <h1 id="logo">
-        <a href="#">MovieHunter</a>
-      </h1>
+
+
       <div id="navigation">
         <ul>
+      {(user.isSubscribed === true && user.name !== undefined) && (
+            <li>{user.name} is subscribed</li>
+          )}
+          {(user.isSubscribed === false && user.name !==  null) && (
+          <li><button className="btn btn-danger" onClick={subscribe}>Subscribe</button></li>
+)}
           <li>
             <Link to="/" className="active">
               HOME
@@ -66,30 +90,20 @@ const Header = () => {
       </div>
       <div id="sub-navigation">
         <ul>
-          <li>
-            <a>SHOW ALL</a>
-          </li>
-          <li>
-            <a>LATEST TRAILERS</a>
-          </li>
-          <li>
-            <a>TOP RATED</a>
-          </li>
-          <li>
-            <a>MOST COMMENTED</a>
-          </li>
+
         </ul>
         <div id="search">
           <form action="#" method="get" accept-charset="utf-8">
             <label for="search-field">SEARCH</label>
             <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               name="search field"
               placeholder="Enter search here"
               id="search-field"
               className="blink search-field"
             />
-            <input type="submit" value="Go" class="search-button" />
           </form>
         </div>
       </div>
